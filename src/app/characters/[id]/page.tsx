@@ -15,7 +15,6 @@ async function getCharacter(id: string): Promise<Character> {
 }
 
 async function getEpisodes(episodeUrls: string[]): Promise<any[]> {
-  // Extract episode IDs from URLs
   const episodeIds = episodeUrls.map(url => url.split('/').pop()).join(',')
   
   const res = await fetch(`https://rickandmortyapi.com/api/episode/${episodeIds}`, {
@@ -27,7 +26,6 @@ async function getEpisodes(episodeUrls: string[]): Promise<any[]> {
   }
 
   const data = await res.json()
-  // Handle both single episode and array responses
   return Array.isArray(data) ? data : [data]
 }
 
@@ -43,7 +41,6 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
 
   return (
     <div className="character-detail-container">
-      {/* Back Button */}
       <div className="back-navigation">
         <Link href="/characters" className="back-button">
           ← Back to Characters
@@ -51,7 +48,6 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
       </div>
 
       <div className="character-detail-content">
-        {/* Character Image and Basic Info */}
         <div className="character-hero">
           <div className="character-image-large">
             <img
@@ -73,9 +69,7 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
           </div>
         </div>
 
-        {/* Detailed Information */}
         <div className="character-details-grid">
-          {/* Personal Information */}
           <div className="detail-section">
             <h2 className="section-title">Personal Information</h2>
             <div className="detail-grid">
@@ -110,7 +104,6 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
             </div>
           </div>
 
-          {/* Location Information */}
           <div className="detail-section">
             <h2 className="section-title">Location Information</h2>
             <div className="detail-grid">
@@ -126,7 +119,6 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
           </div>
         </div>
 
-        {/* Episodes Section */}
         <div className="episodes-section">
           <h2 className="section-title">Episodes ({episodes.length})</h2>
           <div className="episodes-grid">
@@ -145,7 +137,6 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
           </div>
         </div>
 
-        {/* Metadata */}
         <div className="character-metadata">
           <p className="created-date">
             Created: {new Date(character.created).toLocaleDateString('en-US', {

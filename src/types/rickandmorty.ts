@@ -1,5 +1,3 @@
-// Types based on Rick and Morty API schema
-// https://rickandmortyapi.com/documentation/#character-schema
 
 export interface Character {
   id: number
