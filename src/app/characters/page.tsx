@@ -1,14 +1,15 @@
 import { Character, ApiResponse } from '@/types/rickandmorty';
 import DataTable, { ColumnType } from '@/components/DataTable';
 import './characters.css';
+import { notFound } from 'next/navigation';
 
-async function getCharacters(): Promise<ApiResponse<Character>> {
+export async function getCharacters(): Promise<ApiResponse<Character>> {
   const res = await fetch('https://rickandmortyapi.com/api/character', {
     cache: 'no-store',
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch characters');
+    notFound();
   }
 
   return res.json();

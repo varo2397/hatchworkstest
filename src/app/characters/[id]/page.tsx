@@ -4,6 +4,7 @@ import Image from 'next/image'
 import './character-detail.css'
 import DataTable, { ColumnType } from '@/components/DataTable'
 import { format } from 'date-fns'
+import { notFound } from 'next/navigation'
 
 async function getCharacter(id: string): Promise<Character> {
   const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`, {
@@ -11,7 +12,7 @@ async function getCharacter(id: string): Promise<Character> {
   })
 
   if (!res.ok) {
-    throw new Error('Failed to fetch character')
+    notFound()
   }
 
   return res.json()
@@ -93,14 +94,12 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
         </div>
       </div>
 
-      <div className="episodes-section">
         <h2 className="episodes-title">Episodes</h2>
         <DataTable
           data={episodes}
           columns={episodeColumns}
           keyField="id"
         />
-      </div>
     </div>
   )
 }
