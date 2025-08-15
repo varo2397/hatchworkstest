@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import './DataTable.css';
 
-// Define column types
 export type ColumnType<T> = {
   key: keyof T & string;
   header: string;
@@ -13,7 +12,6 @@ export type ColumnType<T> = {
   render?: (value: T[keyof T & string], row: T) => React.ReactNode;
 };
 
-// Define component props
 export interface DataTableProps<T> {
   data: T[];
   columns: ColumnType<T>[];

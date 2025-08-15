@@ -1,4 +1,3 @@
-/* Characters Page Styles */
 .characters-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -15,18 +14,14 @@
   color: var(--text-primary);
 }
 
-/* Status Colors */
 .status-alive {
   background-color: var(--status-alive);
-  color: var(--status-alive);
 }
 
 .status-dead {
   background-color: var(--status-dead);
-  color: var(--status-dead);
 }
 
 .status-unknown {
   background-color: var(--status-unknown);
-  color: var(--status-unknown);
 }

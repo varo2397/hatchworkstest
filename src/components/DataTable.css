@@ -98,10 +98,6 @@
   text-decoration: none;
 }
 
-.mobile-card:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
 .mobile-image-container {
   flex-shrink: 0;
 }
@@ -133,7 +129,6 @@
   font-weight: 500;
 }
 
-/* Responsive Design */
 @media (min-width: 768px) {
   .desktop-table {
     display: table;
