@@ -1,244 +1,78 @@
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
 .character-detail-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  min-height: 100vh;
 }
 
-.back-navigation {
-  margin-bottom: 2rem;
-}
-
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  background-color: #3498db;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.back-button:hover {
-  background-color: #2980b9;
-  transform: translateY(-2px);
-}
-
-.character-detail-content {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.character-hero {
+.breadcrumb {
   display: flex;
   align-items: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.breadcrumb a {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb span:last-of-type {
+  color: var(--text-secondary);
+}
+
+.character-card {
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 2rem;
   gap: 2rem;
 }
 
-.character-image-large {
-  position: relative;
+.character-card-image {
   flex-shrink: 0;
 }
 
-.hero-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border: 4px solid rgba(255, 255, 255, 0.3);
+.character-image {
+  width: 300px;
+  height: 100%;
   object-fit: cover;
-}
-
-.status-badge-large {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 2px solid white;
-}
-
-.status-badge-large.status-alive {
-  background-color: #27ae60;
-}
-
-.status-badge-large.status-dead {
-  background-color: #e74c3c;
-}
-
-.status-badge-large.status-unknown {
-  background-color: #95a5a6;
-}
-
-.character-basic-info {
-  flex: 1;
-}
-
-.character-title {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.character-subtitle {
-  font-size: 1.25rem;
-  opacity: 0.9;
-  font-weight: 400;
-}
-
-.species {
-  font-weight: 600;
-}
-
-.type {
-  opacity: 0.8;
-}
-
-.character-details-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 2rem;
-}
-
-.detail-section {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 0.5rem;
-}
-
-.detail-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.detail-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem;
-  background: white;
   border-radius: 8px;
-  border-left: 4px solid #3498db;
 }
 
-.detail-label {
-  font-weight: 600;
-  color: #34495e;
-  font-size: 0.9rem;
-}
-
-.detail-value {
-  color: #2c3e50;
-  font-weight: 500;
-  text-align: right;
-}
-
-.status-text.status-alive {
-  color: #27ae60;
-  font-weight: 700;
-}
-
-.status-text.status-dead {
-  color: #e74c3c;
-  font-weight: 700;
-}
-
-.status-text.status-unknown {
-  color: #95a5a6;
-  font-weight: 700;
-}
-
-.episodes-section {
+.character-card-info {
   padding: 2rem;
-  border-top: 1px solid #ecf0f1;
-}
-
-.episodes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.episode-card {
-  background: white;
-  border: 1px solid #e1e8ed;
-  border-radius: 12px;
-  padding: 1.5rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.episode-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.episode-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
 }
 
-.episode-code {
-  background-color: #3498db;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
+.character-name {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
 }
 
-.episode-date {
-  color: #7f8c8d;
-  font-size: 0.875rem;
+.character-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
 }
 
-.episode-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-  line-height: 1.3;
+.character-meta strong {
+  color: var(--text-primary);
 }
 
-.episode-characters {
-  color: #7f8c8d;
-  font-size: 0.875rem;
-}
-
-.character-metadata {
-  padding: 1.5rem 2rem;
-  border-top: 1px solid #ecf0f1;
-  background: #f8f9fa;
-  text-align: center;
-}
-
-.created-date {
-  color: #7f8c8d;
-  font-size: 0.9rem;
-  margin: 0;
+.episodes-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin: 0 0 1.5rem 0;
 }
 
 @media (max-width: 768px) {
@@ -246,62 +80,30 @@
     padding: 1rem;
   }
 
-  .character-hero {
+  .character-card {
     flex-direction: column;
-    text-align: center;
+    gap: 0;
+  }
+
+  .character-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .character-card-info {
     padding: 1.5rem;
   }
 
-  .character-title {
+  .character-name {
     font-size: 2rem;
   }
 
-  .character-details-grid {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-    gap: 1rem;
-  }
-
-  .detail-section {
-    padding: 1rem;
-  }
-
-  .episodes-section {
-    padding: 1rem;
-  }
-
-  .episodes-grid {
+  .character-meta {
     grid-template-columns: 1fr;
   }
 
-  .detail-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .detail-value {
-    text-align: left;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-image {
-    width: 150px;
-    height: 150px;
-  }
-
-  .character-title {
-    font-size: 1.75rem;
-  }
-
-  .character-subtitle {
-    font-size: 1rem;
-  }
-
-  .episode-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  .character-meta p {
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
   }
 }

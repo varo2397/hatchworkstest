@@ -17,7 +17,7 @@ async function getCharacters(): Promise<ApiResponse<Character>> {
 export default async function CharactersPage() {
   const data = await getCharacters();
 
-  const columns: ColumnType[] = [
+  const columns: ColumnType<Character>[] = [
     {
       key: 'image',
       header: 'Image',

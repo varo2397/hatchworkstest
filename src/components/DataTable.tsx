@@ -4,18 +4,19 @@ import Link from 'next/link';
 import './DataTable.css';
 
 // Define column types
-export type ColumnType = {
-  key: string;
+export type ColumnType<T> = {
+  key: keyof T & string;
   header: string;
   type?: 'text' | 'image' | 'status' | 'link';
   width?: string;
-  render?: (value: any, row: any) => React.ReactNode;
+  isPrimary?: boolean;
+  render?: (value: T[keyof T & string], row: T) => React.ReactNode;
 };
 
 // Define component props
 export interface DataTableProps<T> {
   data: T[];
-  columns: ColumnType[];
+  columns: ColumnType<T>[];
   keyField: keyof T;
   getLinkUrl?: (item: T) => string;
   getStatusClass?: (item: T) => string;
@@ -66,7 +67,6 @@ export default function DataTable<T>({
         </table>
       </div>
 
-      {/* Mobile List */}
       <div className="mobile-list">
         {data.map((item) => {
           const url = getLinkUrl ? getLinkUrl(item) : undefined;
@@ -74,7 +74,7 @@ export default function DataTable<T>({
           const cardProps = url ? { href: url, className: 'mobile-card' } : { className: 'mobile-card' };
           
           const imageColumn = columns.find(col => col.type === 'image');
-          const primaryColumn = columns.find(col => col.type !== 'image') || columns[0];
+          const primaryColumn = columns.find(col => col.isPrimary) || columns.find(col => col.type !== 'image') || columns[0];
           const statusColumn = columns.find(col => col.type === 'status');
           const detailColumns = columns.filter(col => 
             col.key !== imageColumn?.key && 
@@ -83,7 +83,7 @@ export default function DataTable<T>({
           );
 
           return (
-            // @ts-ignore - Card can be either Link or div
+            // @ts-expect-error - Card can be either Link or div
             <Card key={String(item[keyField])} {...cardProps}>
               {imageColumn && (
                 <div className="mobile-image-container">
@@ -117,13 +117,13 @@ export default function DataTable<T>({
 
 function renderCell<T>(
   item: T, 
-  column: ColumnType, 
+  column: ColumnType<T>, 
   getLinkUrl?: (item: T) => string,
   getStatusClass?: (item: T) => string,
   imageWidth = 44,
   imageHeight = 44
 ) {
-  const value = item[column.key as keyof T];
+  const value = item[column.key];
   
   if (column.render) {
     return column.render(value, item);

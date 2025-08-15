@@ -1,6 +1,9 @@
-import { Character } from '@/types/rickandmorty'
+import { Character, Episode } from '@/types/rickandmorty'
 import Link from 'next/link'
+import Image from 'next/image'
 import './character-detail.css'
+import DataTable, { ColumnType } from '@/components/DataTable'
+import { format } from 'date-fns'
 
 async function getCharacter(id: string): Promise<Character> {
   const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`, {
@@ -14,7 +17,7 @@ async function getCharacter(id: string): Promise<Character> {
   return res.json()
 }
 
-async function getEpisodes(episodeUrls: string[]): Promise<any[]> {
+async function getEpisodes(episodeUrls: string[]): Promise<Episode[]> {
   const episodeIds = episodeUrls.map(url => url.split('/').pop()).join(',')
   
   const res = await fetch(`https://rickandmortyapi.com/api/episode/${episodeIds}`, {
@@ -39,115 +42,64 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
   const character = await getCharacter(params.id)
   const episodes = await getEpisodes(character.episode)
 
+  const episodeColumns: ColumnType<Episode>[] = [
+    {
+      key: 'episode',
+      header: 'Episode',
+      width: '20%',
+    },
+    {
+      key: 'name',
+      header: 'Name',
+      width: '60%',
+      isPrimary: true,
+    },
+    {
+      key: 'air_date',
+      header: 'Air Date',
+      width: '20%',
+      render: (air_date) => format(new Date(air_date as string), 'MMMM d, yyyy'),
+    }
+  ];
+
   return (
     <div className="character-detail-container">
-      <div className="back-navigation">
-        <Link href="/characters" className="back-button">
-          ← Back to Characters
-        </Link>
+      <div className="breadcrumb">
+        <Link href="/characters">Characters</Link>
+        <span>/</span>
+        <span>{character.name}</span>
       </div>
 
-      <div className="character-detail-content">
-        <div className="character-hero">
-          <div className="character-image-large">
-            <img
-              src={character.image}
-              alt={character.name}
-              className="hero-image"
-            />
-            <div className={`status-badge-large status-${character.status.toLowerCase()}`}>
-              {character.status}
-            </div>
-          </div>
-          
-          <div className="character-basic-info">
-            <h1 className="character-title">{character.name}</h1>
-            <div className="character-subtitle">
-              <span className="species">{character.species}</span>
-              {character.type && <span className="type"> • {character.type}</span>}
-            </div>
+      <div className="character-card">
+        <div className="character-card-image">
+          <Image
+            src={character.image}
+            alt={character.name}
+            width={300}
+            height={300}
+            className="character-image"
+          />
+        </div>
+        <div className="character-card-info">
+          <h1 className="character-name">{character.name}</h1>
+          <div className="character-meta">
+            <p><strong>Species:</strong> {character.species}</p>
+            <p><strong>Type:</strong> {character.type || 'Not available'}</p>
+            <p><strong>Status:</strong> {character.status}</p>
+            <p><strong>Gender:</strong> {character.gender}</p>
+            <p><strong>Origin:</strong> {character.origin.name}</p>
+            <p><strong>Last Known Location:</strong> {character.location.name}</p>
           </div>
         </div>
+      </div>
 
-        <div className="character-details-grid">
-          <div className="detail-section">
-            <h2 className="section-title">Personal Information</h2>
-            <div className="detail-grid">
-              <div className="detail-item">
-                <span className="detail-label">ID</span>
-                <span className="detail-value">#{character.id}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">Name</span>
-                <span className="detail-value">{character.name}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">Status</span>
-                <span className={`detail-value status-text status-${character.status.toLowerCase()}`}>
-                  {character.status}
-                </span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">Species</span>
-                <span className="detail-value">{character.species}</span>
-              </div>
-              {character.type && (
-                <div className="detail-item">
-                  <span className="detail-label">Type</span>
-                  <span className="detail-value">{character.type}</span>
-                </div>
-              )}
-              <div className="detail-item">
-                <span className="detail-label">Gender</span>
-                <span className="detail-value">{character.gender}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="detail-section">
-            <h2 className="section-title">Location Information</h2>
-            <div className="detail-grid">
-              <div className="detail-item">
-                <span className="detail-label">Origin</span>
-                <span className="detail-value">{character.origin.name}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">Last Known Location</span>
-                <span className="detail-value">{character.location.name}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="episodes-section">
-          <h2 className="section-title">Episodes ({episodes.length})</h2>
-          <div className="episodes-grid">
-            {episodes.map((episode) => (
-              <div key={episode.id} className="episode-card">
-                <div className="episode-header">
-                  <span className="episode-code">{episode.episode}</span>
-                  <span className="episode-date">{episode.air_date}</span>
-                </div>
-                <h3 className="episode-title">{episode.name}</h3>
-                <div className="episode-characters">
-                  {episode.characters.length} characters
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="character-metadata">
-          <p className="created-date">
-            Created: {new Date(character.created).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}
-          </p>
-        </div>
+      <div className="episodes-section">
+        <h2 className="episodes-title">Episodes</h2>
+        <DataTable
+          data={episodes}
+          columns={episodeColumns}
+          keyField="id"
+        />
       </div>
     </div>
   )
